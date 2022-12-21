@@ -21,24 +21,30 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
+  const [selected, setSelected] = useState({
+    quote: 0, votes: [0, 0, 0, 0, 0, 0, 0]
+  })
+
+  const mostPopular = selected.votes.indexOf(Math.max.apply(Math, selected.votes)) 
+
   const addVote = (number) => {
     const newVoteArray = selected.votes
     newVoteArray[number] = newVoteArray[number] + 1
-    console.log(selected.votes)
     const newVotes = { ...selected, votes: newVoteArray}
- 
     setSelected(newVotes)
   }
-  const [selected, setSelected] = useState({
-    quote: 0, votes: [0,0,0,0,0,0,0]
-  })
+
   const number = genRandom(7)
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[number]}<br />
       has {selected.votes[number]} votes <br />
       <Button handleClick={() => addVote(number)} text='vote' />
-      <Button handleClick={() => setSelected({ ...selected, quote: number})} text='next anecdote' />
+      <Button handleClick={() => setSelected({ ...selected, quote: number })} text='next anecdote' />
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[mostPopular]}<br />
+      {selected.votes[mostPopular]}
     </div>
   )
 }
