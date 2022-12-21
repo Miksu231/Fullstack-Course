@@ -17,8 +17,8 @@ const Part = (props) => {
     )
 }
 const Content = (props) => {
-    const partList = props.course.parts.map((item) => {
-       return(<Part part={item.name} exercises={item.exercises} />)
+    const partList = props.course.parts.map((item, index) => {
+      return (<Part key={index} part={item.name} exercises={item.exercises} />)
     })
     return (
         <div>
