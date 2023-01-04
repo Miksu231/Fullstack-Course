@@ -1,7 +1,7 @@
 const Name = (props) => {
 	return (
 		<div>
-			<li>{props.content}</li>
+			<li>{props.content + ' ' + props.number}</li>
 		</div>
 	)
 }
