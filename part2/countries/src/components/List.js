@@ -1,32 +1,31 @@
 import Country from './Country.js'
 import Button from './Button.js'
 
-const List = (props) => {
+const List = ({list, weather, updateWeather, updateState, apiKey }) => {
 
 	const showCountry = (country) => {
-		props.updateState([country])
+		updateState([country])
 	}
 
-	if (props.list.length > 10) {
+	if (list.length > 10) {
 		return (
 			<div>
 				<p>Too many countries, specify another filter</p>
 			</div>
 		)
-	} else if (props.list.length > 1) {
-		console.log(props.list)
+	} else if (list.length > 1) {
 		return (
 			<div>
 				<ul>
-					{props.list
-					.map((country, index) => <li key={index}>{country.name.common}<Button text='show' handleClick={() => showCountry(country)} /> </li>)}
+					{list
+						.map((country, index) => <li key={index}>{country.name.common}<Button text='show' handleClick={() => showCountry(country)} /> </li>)}
 				</ul>
 
 			</div>
 		)
-	} else if (props.list.length === 1) {
+	} else if (list.length === 1) {
 		return (
-			<Country country={props.list[0]} />
+			<Country country={list[0]} weather={weather} setWeather={updateWeather} apiKey={apiKey}/>
 		)
 	} else {
 		return (<div><p>No countries found</p></div>)

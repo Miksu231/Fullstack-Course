@@ -5,8 +5,10 @@ import axios from 'axios'
 
 function App() {
 
+  const apiKey = process.env.REACT_APP_API_KEY
   const [search, changeSearch] = useState('')
   const [countries, setCountries] = useState([])
+  const [weather, setWeather]= useState([])
   const handleSearch = (event) => {
     changeSearch(event.target.value)
   }
@@ -17,7 +19,6 @@ function App() {
         const results = response.data.filter(country => { return country.name.common.toLowerCase().includes(search.toLowerCase()) })
         setCountries(results)
       })
-  
     }, 1000)
     return () => clearTimeout(delayDebounceFn)
   }, [search])
@@ -25,7 +26,7 @@ function App() {
   return (
     <div>
       <Filter value={search} onChange={handleSearch} />
-      <List list={countries} updateState={setCountries}/>
+      <List list={countries} updateState={setCountries} apiKey={apiKey} weather={weather} updateWeather={setWeather}/>
     </div>
   );
 }
