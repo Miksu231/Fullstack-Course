@@ -25,7 +25,7 @@ function App() {
   return (
     <div>
       <Filter value={search} onChange={handleSearch} />
-      <List list={countries}/>
+      <List list={countries} updateState={setCountries}/>
     </div>
   );
 }

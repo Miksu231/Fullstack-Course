@@ -1,4 +1,12 @@
+import Country from './Country.js'
+import Button from './Button.js'
+
 const List = (props) => {
+
+	const showCountry = (country) => {
+		props.updateState([country])
+	}
+
 	if (props.list.length > 10) {
 		return (
 			<div>
@@ -6,27 +14,22 @@ const List = (props) => {
 			</div>
 		)
 	} else if (props.list.length > 1) {
+		console.log(props.list)
 		return (
 			<div>
 				<ul>
-					{props.list.map((country, index) => <li key={index}>{country.name.common}</li>)}
+					{props.list
+					.map((country, index) => <li key={index}>{country.name.common}<Button text='show' handleClick={() => showCountry(country)} /> </li>)}
 				</ul>
+
 			</div>
 		)
 	} else if (props.list.length === 1) {
-		const country = props.list[0]
 		return (
-			<div>
-				<h2>{country.name.common}</h2>
-				<p>capital {country.capital}</p>
-				<p>area {country.area}</p>
-				<b>languages</b>
-				<ul>
-					{Object.values(country.languages).map((language, index) => <li key={index}>{language}</li>)}
-				</ul>
-				<img src={country.flags.png} alt='The flag of {country.name.common}'/>
-			</div>
-			)
-	} else return (<div><p>No countries found</p></div>)
+			<Country country={props.list[0]} />
+		)
+	} else {
+		return (<div><p>No countries found</p></div>)
+	}
 }
 export default List
