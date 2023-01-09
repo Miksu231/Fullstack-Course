@@ -36,7 +36,6 @@ const App = () => {
 			})
     }
   }
-
   return (
     <div>
       <h2>Phonebook</h2>
@@ -44,7 +43,7 @@ const App = () => {
       <h2>add a new</h2>
       <Form name={newName} number={newNumber} onSubmit={addName} onNumbChange={handleNumberChange} onNameChange={handleNameChange} />
       <h2>Numbers</h2>
-      <Persons search={search} list={persons} />
+      <Persons search={search} list={persons} stateChange={setPersons} />
     </div>
   )
 }

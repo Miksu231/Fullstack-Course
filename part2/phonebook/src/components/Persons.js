@@ -8,7 +8,7 @@ const Persons = (props) => {
   return (
     <div>
       <ul>
-        {list.map(person => <Name key={person.id} content={person.name} number={person.number} />)}
+        {list.map(person => <Name key={person.id} content={person.name} number={person.number} state={props.list} stateChange={props.stateChange} id={person.id}/>)}
       </ul>
     </div>
   )
