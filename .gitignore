@@ -11,7 +11,7 @@
 *.sln.docstates
 .vs/*
 */testing
-part3/backend
+part3/Full-Stack-Course-Backend
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
