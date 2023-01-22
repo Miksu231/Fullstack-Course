@@ -13,12 +13,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "start react-scripts start",
+    "start": "start react-scripts start && cd ../../part3/Full-Stack-Course-Backend && node index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server -p3001 --watch db.json",
-    "dev": "start json-server -p3001 --watch db.json && start react-scripts start"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -40,5 +38,6 @@
   },
   "devDependencies": {
     "json-server": "^0.17.1"
-  }
+  },
+  "proxy": "http://localhost:3001/"
 }
