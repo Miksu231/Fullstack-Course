@@ -109,3 +109,24 @@ describe('author with most blogs', () => {
           })
     })
 })
+describe('author with most likes', () => {
+
+  test('Should return J. R. R. Tolkien when there are multiple', () => {
+    const test = listHelper.mostLikes(listWithBlogs)
+    expect(test).toEqual({
+      author: "J. R. R. Tolkien",
+      likes: 1000
+    })
+  })
+  test('Should return Robert C. Martin with one blog', () => {
+    const test = listHelper.mostLikes(listWithOneBlog)
+    expect(test).toEqual({
+      author: "Robert C. Martin",
+      likes: 5
+    })
+  })
+  test('Should return nobody if there are no blogs', () => {
+    const test = listHelper.mostLikes(listWithNoBlogs)
+    expect(test).toEqual(undefined)
+  })
+})
