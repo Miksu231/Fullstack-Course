@@ -7,7 +7,10 @@ const blogsRouter = require('./controllers/blogs')
 require('dotenv').config()
 
 
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = process.NODE_ENV === 'test'
+	? process.env.MONGODB_URI
+	: process.env.MONGODB_TEST_URI
+
 mongoose.connect(mongoUrl)
 
 app.use(cors())
