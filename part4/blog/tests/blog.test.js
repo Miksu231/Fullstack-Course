@@ -15,6 +15,7 @@ beforeEach(async () => {
 	}
 })
 describe('API tests', () => {
+
   test('The amount of blogs in the test DB is correct', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(helper.initialBlogs.length)
@@ -39,6 +40,7 @@ describe('API tests', () => {
     const blogAuthors = response.body.map(blog => blog.author)
     expect(blogAuthors).toContainEqual('user')
   })
+
   test('Missing likes value defaults to zero', async () => {
     let newBlog = {
       title: 'Interesting title 2',
@@ -50,6 +52,7 @@ describe('API tests', () => {
     const faultyItem = response.body.filter(blog => blog.title === 'Interesting title 2')[0]
     expect(faultyItem.likes).toEqual(0)
   })
+
   test('Missing title or URL returns response 400', async () => {
     let newBlog1 = {
       author: 'Kyle J. Blogger',
@@ -63,5 +66,42 @@ describe('API tests', () => {
       likes: 10
     }
     await api.post('/api/blogs').send(newBlog2).expect(400)
-	})
+  })
+
+  test('Can delete a blog', async () => {
+    let newBlog1 = {
+      title: 'Title1',  
+      author: 'Kyle J. Blogger',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 5
+    }
+    await api.post('/api/blogs').send(newBlog1).expect(201)
+    let response = await api.get('/api/blogs')
+    const blogId = response.body.filter(blog => blog.title === 'Title1')[0]._id
+    await api.delete(`/api/blogs/${blogId}`).expect(204)
+    response = await api.get('/api/blogs')
+    expect(response.body.map(blog => blog.title)).not.toContainEqual('Title1')
+  })
+
+  test('Can update a blog', async () => {
+    const newBlog1 = {
+      title: 'Title1',
+      author: 'Kyle J. Blogger',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 5
+    }
+    await api.post('/api/blogs').send(newBlog1).expect(201)
+    const newBlog2 = {
+      title: 'Title1',
+      author: 'Kyle J. Blogger',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 50
+    }
+    let response = await api.get('/api/blogs')
+    const blogId = response.body.filter(blog => blog.title === 'Title1')[0]._id
+    expect(response.body.filter(blog => blog.title === 'Title1')[0].likes).toEqual(5)
+    await api.put(`/api/blogs/${blogId}`).send(newBlog2)
+    response = await api.get('/api/blogs')
+    expect(response.body.filter(blog => blog.title === 'Title1')[0].likes).toEqual(50)
+  })
 })
