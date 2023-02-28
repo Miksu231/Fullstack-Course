@@ -31,6 +31,7 @@ describe('API tests', () => {
     let newBlog = {
       title: 'name',
       author: 'user',
+      url: 'www.somesite.com/blog',
       likes: 10
 	  }
     await api.post('/api/blogs').send(newBlog).expect(201).expect('Content-Type', /application\/json/)
@@ -48,5 +49,19 @@ describe('API tests', () => {
     const response = await api.get('/api/blogs')
     const faultyItem = response.body.filter(blog => blog.title === 'Interesting title 2')[0]
     expect(faultyItem.likes).toEqual(0)
+  })
+  test('Missing title or URL returns response 400', async () => {
+    let newBlog1 = {
+      author: 'Kyle J. Blogger',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 5
+    }
+    await api.post('/api/blogs').send(newBlog1).expect(400)
+    let newBlog2 = {
+      title: 'Interesting title 2',
+      author: 'Kyle J. Blogger',
+      likes: 10
+    }
+    await api.post('/api/blogs').send(newBlog2).expect(400)
 	})
 })
