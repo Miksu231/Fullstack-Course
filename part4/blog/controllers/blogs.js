@@ -11,13 +11,15 @@ blogsRouter.get('/', (request, response) => {
   })
   
 blogsRouter.post('/', (request, response) => {
-const blog = new Blog(request.body)
-
-blog
-    .save()
-    .then(result => {
-    response.status(201).json(result)
-    })
+  let blog = new Blog(request.body)
+  if (!blog.likes) {
+    blog.likes = 0
+	}
+  blog
+      .save()
+      .then(result => {
+      response.status(201).json(result)
+      })
 })
 
 module.exports = blogsRouter

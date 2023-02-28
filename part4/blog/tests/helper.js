@@ -16,7 +16,7 @@ const initialBlogs = [
     author: 'John A. Blogger',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 15,
-  },
+  }
 ]
 
 

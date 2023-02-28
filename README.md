@@ -1,2 +1,2 @@
 # Fullstack-Course
-Course exercise repository for the Aalto university course Fullstack Web Development D
+Course exercise repository for the Helsinki University course Fullstack Web Development
