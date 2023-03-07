@@ -3,20 +3,30 @@ const blogsRouter = require('express').Router()
 const http = require('http')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('creator', 'username name id')
   response.json(blogs)
 })
   
 blogsRouter.post('/', async (request, response) => {
-  let blog = new Blog(request.body)
-  if (!blog.likes) {
-    blog.likes = 0
+  const body = request.body
+  if (!body.likes) {
+    body.likes = 0
   }
-  if (!blog.url || !blog.title) {
+  if (!body.url || !body.title) {
     response.status(400).end()
   }
   else {
+    const user = await User.findOne({})
+    let blog = new Blog({
+      title: body.title,
+      author: body.author,
+      likes: body.likes,
+      url: body.url,
+      creator: user._id
+    })
     const result = await blog.save()
+    user.blogs.concat(result._id)
+    await user.save()
     response.status(201).json(result)
   }
 })
