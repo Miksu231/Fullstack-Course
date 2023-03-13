@@ -8,13 +8,17 @@ usersRouter.post('/', async (request, response) => {
   if (!username || !password) {
     response.status(400).send('Body must contain a username and password').end()
   }
-  else if (password.length < 3) {
-    response.status(400).send('Given password must be at least 3 characters long').end()
+  else if (password.length < 3 || username.length < 3) {
+    response.status(400).send('Given password and username must be at least 3 characters long').end()
+	}
+  else if ((await User.find({ username: username })).length > 0) {
+    response.status(400).send('Username must be unique').end()
 	}
   else {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
-    let user = new User({ username, name, passwordHash })
+    console.log(passwordHash);
+    let user = new User({ username, passwordHash, name })
     const result = await user.save()
     response.status(201).json(result)
   }
