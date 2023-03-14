@@ -1,7 +1,6 @@
 const Blog = require('../models/blog')
 const blogsRouter = require('express').Router()
 const http = require('http')
-const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response, next) => {
@@ -16,12 +15,7 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
-    console.log(request)
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'Invalid token.' })
-    }
-    const user = await User.findById(decodedToken.id)
+    const user = request.user
     if (!body.likes) {
       body.likes = 0
     }
@@ -48,7 +42,17 @@ blogsRouter.post('/', async (request, response, next) => {
 
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Blog.findByIdAndRemove(request.params.id)
+    const blog = await Blog.findById(request.params.id)
+    const user = request.user
+    if (!user._id || user.id.toString() !== blog.creator.toString()) {
+      return response.status(401).json({ error: 'Only the creator can delete the blog.' })
+    }
+    await blog.remove()
+    await User.updateOne({ _id: user._id }, {
+      $pullAll: {
+        blogs: [{ _id: request.params.id }],
+      },
+		})
     response.status(204).end()
   } catch (exception) {
     next(exception)
