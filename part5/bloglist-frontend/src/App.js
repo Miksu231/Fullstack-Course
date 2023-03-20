@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import LoginForm from './components/Login'
+import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -11,6 +12,9 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+  const [author, setAuthor] = useState('')
+  const [title, setTitle] = useState('')
+  const [url, setURL] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -32,11 +36,34 @@ const App = () => {
       }, 5000)
     }
   }
-  const handleLogout = async (event) => {
+  const handleLogout = (event) => {
     setUser(null)
     setUsername('')
     setPassword('')
     window.localStorage.removeItem('loggedUser')
+  }
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+  const handleURLChange = (event) => {
+    setURL(event.target.value)
+  }
+  const addBlog = async (event) => {
+    event.preventDefault()
+    try {
+      await blogService.create({title, author, url})
+      setTitle('')
+      setAuthor('')
+      setURL('')
+    } catch (exception) {
+      setErrorMessage('Incorrect input')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
 	}
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -57,6 +84,8 @@ const App = () => {
       {user && <div>
         <h2>blogs</h2>
         <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
+        <h2> create new </h2>
+        <BlogForm addBlog={addBlog} onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange} onURLChange={handleURLChange} url={url} author={author} title={title} />
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
