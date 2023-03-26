@@ -1,7 +1,7 @@
 import BlogDetails from './BlogDetails'
 import { useState, forwardRef, useImperativeHandle } from 'react'
 
-const Blog = forwardRef(({ blog, handleLike }, refs) => {
+const Blog = forwardRef(({ blog, handleLike, handleRemove, user }, refs) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -15,6 +15,9 @@ const Blog = forwardRef(({ blog, handleLike }, refs) => {
   const showWhenVisible = { display: visible ? '' : 'none' }
   const likeThis = () => {
     handleLike(blog)
+  }
+  const removeThis = () => {
+    handleRemove(blog)
 	}
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -30,7 +33,7 @@ const Blog = forwardRef(({ blog, handleLike }, refs) => {
   return(
     <div style={blogStyle}>
       {blog.title} {blog.author} <button onClick={toggleVisibility} style={hideWhenVisible}>view</button><button onClick={toggleVisibility} style={showWhenVisible}>hide</button>
-      {visible && <BlogDetails blog={blog} handleLike={likeThis} />}
+      {visible && <BlogDetails blog={blog} handleLike={likeThis} handleRemove={removeThis} user={user} />}
   </div>
   )
 })

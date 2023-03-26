@@ -81,6 +81,13 @@ const App = () => {
     await blogService.addLike({ user: blog.creator.id, likes: 1, author: blog.author, title: blog.title, url: blog.url }, blog.id)
     const blogs = await blogService.getAll()
     setBlogs(blogs)
+  }
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      await blogService.remove(blog.id)
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+		}
 	}
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -112,7 +119,7 @@ const App = () => {
           />
         </Togglable>
         {blogs.map((blog, i) =>
-          <Blog key={blog.id} blog={blog} handleLike={addLike} ref={b => blogsRef.current[i] = b} />
+          <Blog key={blog.id} blog={blog} handleLike={addLike} handleRemove={removeBlog} user={user.username} ref={b => blogsRef.current[i] = b} />
         )}
       </div>
       }
