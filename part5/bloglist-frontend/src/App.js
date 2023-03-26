@@ -18,6 +18,7 @@ const App = () => {
 
   const blogFormRef = useRef()
   const togglableRef = useRef()
+  const blogsRef = useRef([])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -86,6 +87,9 @@ const App = () => {
       setBlogs( blogs )
     )
   }, [])
+  useEffect(() => {
+    blogsRef.current = blogsRef.current.slice(0, blogs.length);
+  }, [blogs])
 
   return (
     <div>
@@ -95,14 +99,14 @@ const App = () => {
         <h2>blogs</h2>
         <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
         <h2> create new </h2>
-        <Togglable buttonLabel='new note' ref={togglableRef}>
+        <Togglable buttonLabel='new note' cancelLabel='cancel' ref={togglableRef}>
           <BlogForm
             addBlog={addBlog}
             ref={blogFormRef}
           />
         </Togglable>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+        {blogs.map((blog, i) =>
+          <Blog key={blog.id} blog={blog} ref={b => blogsRef.current[i] = b} />
         )}
       </div>
       }
