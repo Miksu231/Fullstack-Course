@@ -110,7 +110,7 @@ const App = () => {
       {!user && <LoginForm username={username} password={password} handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} />}
       {user && <div>
         <h2>blogs</h2>
-        <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
+        <p>{user.username} logged in<button onClick={handleLogout}>logout</button></p>
         <h2> create new </h2>
         <Togglable buttonLabel='new note' cancelLabel='cancel' ref={togglableRef}>
           <BlogForm
