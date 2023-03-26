@@ -53,14 +53,15 @@ blogsRouter.put('/:id', middleware.userExtractor, async (request, response, next
   if (!body.url || !body.title) {
     response.status(400).end()
   }
+  
   let checkedLikes = body.likes ? body.likes : 0
+  const databaseBlog = await Blog.findById(request.params.id)
   let blog = {
     title: body.title,
     url: body.url,
     author: body.author,
-    likes: checkedLikes
+    likes: databaseBlog.likes + checkedLikes
   }
-  const databaseBlog = await Blog.findById(request.params.id)
   const user = request.user
   if (!user._id || user.id.toString() !== databaseBlog.creator.toString()) {
     return response.status(401).json({ error: 'Only the creator can edit the blog.' })

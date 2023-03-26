@@ -15,10 +15,16 @@ const create = async newObject => {
   return response.data
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  return response.data
 }
-
+const addLike = async (newObject, id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.put(`/api/blogs/${id}`, newObject, config);
+  return response.data;
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken }
+export default { getAll, create, setToken, addLike }

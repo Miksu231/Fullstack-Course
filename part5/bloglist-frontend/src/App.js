@@ -52,18 +52,20 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
   const addBlog = async (event) => {
+    event.preventDefault()
     try {
       togglableRef.current.toggleVisibility()
       const title = blogFormRef.current.getTitle()
       const author = blogFormRef.current.getAuthor()
       const url = blogFormRef.current.getURL()
-      console.log(title, author, url)
       await blogService.create({ title, author, url })
       blogFormRef.current.clearURL()
       blogFormRef.current.clearAuthor()
       blogFormRef.current.clearTitle()
       setMessage(`A new blog ${blogFormRef.current.getTitle()} by ${blogFormRef.current.getAuthor()} added.`)
       setTone('p')
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
     } catch (exception) {
       console.error(exception)
       setMessage('Incorrect form input')
@@ -75,6 +77,11 @@ const App = () => {
       }, 5000)
     }
   }
+  const addLike = async (blog) => {
+    await blogService.addLike({ user: blog.creator.id, likes: 1, author: blog.author, title: blog.title, url: blog.url }, blog.id)
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
+	}
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -105,7 +112,7 @@ const App = () => {
           />
         </Togglable>
         {blogs.map((blog, i) =>
-          <Blog key={blog.id} blog={blog} ref={b => blogsRef.current[i] = b} />
+          <Blog key={blog.id} blog={blog} handleLike={addLike} ref={b => blogsRef.current[i] = b} />
         )}
       </div>
       }
