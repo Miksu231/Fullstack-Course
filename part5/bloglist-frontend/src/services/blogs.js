@@ -16,8 +16,9 @@ const create = async newObject => {
 }
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl)
-  return response.data
+  const result = await axios.get(baseUrl)
+  const response = result.data.sort((a, b) => { return b.likes - a.likes })
+  return response
 }
 const addLike = async (newObject, id) => {
   const config = {
