@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
@@ -6,6 +6,7 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import './App.css'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,10 +14,10 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [author, setAuthor] = useState('')
-  const [title, setTitle] = useState('')
-  const [url, setURL] = useState('')
   const [notificationTone, setTone] = useState('')
+
+  const blogFormRef = useRef()
+  const togglableRef = useRef()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -43,31 +44,28 @@ const App = () => {
       }, 5000)
     }
   }
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     setUser(null)
     setUsername('')
     setPassword('')
     window.localStorage.removeItem('loggedUser')
   }
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-  const handleURLChange = (event) => {
-    setURL(event.target.value)
-  }
   const addBlog = async (event) => {
     event.preventDefault()
     try {
+      togglableRef.current.toggleVisibility()
+      const title = blogFormRef.current.getTitle()
+      const author = blogFormRef.current.getAuthor()
+      const url = blogFormRef.current.getURL()
+      console.log(title, author, url)
       await blogService.create({ title, author, url })
-      setTitle('')
-      setAuthor('')
-      setURL('')
-      setMessage(`A new blog ${title} by ${author} added.`)
+      blogFormRef.current.clearURL()
+      blogFormRef.current.clearAuthor()
+      blogFormRef.current.clearTitle()
+      setMessage(`A new blog ${blogFormRef.current.getTitle()} by ${blogFormRef.current.getAuthor()} added.`)
       setTone('p')
     } catch (exception) {
+      console.error(exception)
       setMessage('Incorrect form input')
       setTone('n')
     } finally {
@@ -97,7 +95,12 @@ const App = () => {
         <h2>blogs</h2>
         <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
         <h2> create new </h2>
-        <BlogForm addBlog={addBlog} onTitleChange={handleTitleChange} onAuthorChange={handleAuthorChange} onURLChange={handleURLChange} url={url} author={author} title={title} />
+        <Togglable buttonLabel='new note' ref={togglableRef}>
+          <BlogForm
+            addBlog={addBlog}
+            ref={blogFormRef}
+          />
+        </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
