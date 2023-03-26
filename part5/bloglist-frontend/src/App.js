@@ -87,8 +87,8 @@ const App = () => {
       await blogService.remove(blog.id)
       const blogs = await blogService.getAll()
       setBlogs(blogs)
-		}
-	}
+    }
+  }
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -101,7 +101,7 @@ const App = () => {
     )
   }, [])
   useEffect(() => {
-    blogsRef.current = blogsRef.current.slice(0, blogs.length);
+    blogsRef.current = blogsRef.current.slice(0, blogs.length)
   }, [blogs])
 
   return (

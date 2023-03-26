@@ -21,5 +21,5 @@ const LoginForm = ({ username, password, handleLogin, setUsername, setPassword }
     <button type="submit">login</button>
   </form>
 )
-
+LoginForm.displayName = 'LoginForm'
 export default LoginForm

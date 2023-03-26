@@ -24,8 +24,8 @@ const addLike = async (newObject, id) => {
   const config = {
     headers: { Authorization: token },
   }
-  const response = await axios.put(`/api/blogs/${id}`, newObject, config);
-  return response.data;
+  const response = await axios.put(`/api/blogs/${id}`, newObject, config)
+  return response.data
 }
 const remove = async (id) => {
   const config = {
@@ -34,5 +34,5 @@ const remove = async (id) => {
   const response = await axios.delete(`/api/blogs/${id}`, config)
   return response.data
 }
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export default { getAll, create, setToken, addLike, remove }

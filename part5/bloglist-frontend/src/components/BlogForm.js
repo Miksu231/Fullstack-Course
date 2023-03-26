@@ -43,30 +43,32 @@ const BlogForm = forwardRef(({ addBlog }, refs) => {
     }
   })
   return(
-  <form onSubmit={addBlog}>
-    <div>
+    <form onSubmit={addBlog}>
+      <div>
       title:
-      <input
-        value={title}
-        onChange={handleTitleChange}
-      />
-    </div>
-    <div>
+        <input
+          value={title}
+          onChange={handleTitleChange}
+        />
+      </div>
+      <div>
       author:
-      <input
-        value={author}
-        onChange={handleAuthorChange}
-      />
-    </div>
-    <div>
+        <input
+          value={author}
+          onChange={handleAuthorChange}
+        />
+      </div>
+      <div>
       url:
-      <input
-        value={url}
-        onChange={handleURLChange}
-      />
-    </div>
-    <button type="submit">create</button>
-  </form>
+        <input
+          value={url}
+          onChange={handleURLChange}
+        />
+      </div>
+      <button type="submit">create</button>
+    </form>
   )
 })
+BlogForm.displayName = 'BlogForm'
+
 export default BlogForm
