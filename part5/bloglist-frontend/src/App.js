@@ -52,7 +52,6 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
   const addBlog = async (event) => {
-    event.preventDefault()
     try {
       togglableRef.current.toggleVisibility()
       const title = blogFormRef.current.getTitle()
