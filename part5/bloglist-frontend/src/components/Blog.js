@@ -31,8 +31,8 @@ const Blog = forwardRef(({ blog, handleLike, handleRemove, user }, refs) => {
     }
   })
   return(
-    <div style={blogStyle}>
-      {blog.title} {blog.author} <button aria-label='open' onClick={toggleVisibility} style={hideWhenVisible}>view</button><button aria-label='close' onClick={toggleVisibility} style={showWhenVisible}>hide</button>
+    <div style={blogStyle} className='blog'>
+      {blog.title} {blog.author} <button aria-label='open' id='open-button' onClick={toggleVisibility} style={hideWhenVisible} className='openButton'>view</button><button aria-label='close' id='close-button' onClick={toggleVisibility} style={showWhenVisible} className='closeButton'>hide</button>
       {visible && <BlogDetails aria-label='details' blog={blog} handleLike={likeThis} handleRemove={removeThis} user={user} />}
     </div>
   )

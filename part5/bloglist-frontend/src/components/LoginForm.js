@@ -3,22 +3,24 @@ const LoginForm = ({ username, password, handleLogin, setUsername, setPassword }
     <div>
       username
       <input
-        type="text"
+        id='username'
+        type='text'
         value={username}
-        name="Username"
+        name='Username'
         onChange={({ target }) => setUsername(target.value)}
       />
     </div>
     <div>
       password
       <input
-        type="password"
+        id='password'
+        type='password'
         value={password}
-        name="Password"
+        name='Password'
         onChange={({ target }) => setPassword(target.value)}
       />
     </div>
-    <button type="submit">login</button>
+    <button id='login-button' type='submit'>login</button>
   </form>
 )
 LoginForm.displayName = 'LoginForm'

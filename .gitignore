@@ -12,6 +12,8 @@
 .vs/*
 */testing
 part3/Full-Stack-Course-Backend
+part5/bloglist-frontend/cypress/videos
+part5/bloglist-frontend/cypress/screenshots
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

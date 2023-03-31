@@ -8,8 +8,8 @@ import Blog from './Blog'
 test('Renders title and author, but not url or likes', () => {
 
   const user = {
-    username: "User",
-    token: "abcdefghijklmnopqrstuvwxyz"
+    username: 'User',
+    token: 'abcdefghijklmnopqrstuvwxyz'
   }
   const blog = {
     title: 'Testing blog title',
@@ -29,13 +29,13 @@ test('Renders title and author, but not url or likes', () => {
   expect(title).toBeDefined()
   expect(author).toBeDefined()
   expect(details).not.toBeDefined()
-  
+
 })
 test('Likes and url are shown after opening', async () => {
 
   const user = {
-    username: "User",
-    token: "abcdefghijklmnopqrstuvwxyz"
+    username: 'User',
+    token: 'abcdefghijklmnopqrstuvwxyz'
   }
   const blog = {
     title: 'Testing blog title',
@@ -54,20 +54,20 @@ test('Likes and url are shown after opening', async () => {
   const title = screen.queryByText('Testing blog')
   const author = screen.queryByText('Test author')
   const open = await screen.findByLabelText('open')
-  await event.click(open) 
+  await event.click(open)
   const url = screen.queryByText('someTestURL')
   const likes = screen.queryByText('likes 10')
   expect(title).toBeDefined()
   expect(author).toBeDefined()
   expect(url).toBeDefined()
   expect(likes).toBeDefined()
-  
+
 })
 test('Liking twice updates event handler twice', async () => {
 
   const user = {
-    username: "User",
-    token: "abcdefghijklmnopqrstuvwxyz"
+    username: 'User',
+    token: 'abcdefghijklmnopqrstuvwxyz'
   }
   const blog = {
     title: 'Testing blog title',

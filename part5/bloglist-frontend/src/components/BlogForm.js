@@ -47,6 +47,7 @@ const BlogForm = forwardRef(({ addBlog }, refs) => {
       <div>
       title:
         <input
+          id='title'
           value={title}
           onChange={handleTitleChange}
         />
@@ -54,6 +55,7 @@ const BlogForm = forwardRef(({ addBlog }, refs) => {
       <div>
       author:
         <input
+          id='author'
           value={author}
           onChange={handleAuthorChange}
         />
@@ -61,11 +63,12 @@ const BlogForm = forwardRef(({ addBlog }, refs) => {
       <div>
       url:
         <input
+          id='url'
           value={url}
           onChange={handleURLChange}
         />
       </div>
-      <button type="submit">create</button>
+      <button id='submit' type="submit">create</button>
     </form>
   )
 })
